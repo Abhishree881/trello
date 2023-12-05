@@ -1,35 +1,11 @@
 // pages/HomePage.js
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { addBoard } from "../slices/boardSlice";
+import React from "react";
+import { useSelector } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const boards = useSelector((state) => state.board);
-  const [newBoardTitle, setNewBoardTitle] = useState("");
-
-  const handleAddBoard = () => {
-    if (newBoardTitle.trim() === "") {
-      // Don't add a board with an empty title
-      return;
-    }
-
-    const newBoard = {
-      id: Date.now(),
-      title: newBoardTitle,
-      lists: [],
-    };
-
-    dispatch(addBoard({ newBoard }));
-
-    // Clear input after adding a new board
-    setNewBoardTitle("");
-
-    // Redirect to the new board
-    navigate(`/board/${newBoard.id}`);
-  };
 
   const handleBoardClick = (boardId) => {
     navigate(`/board/${boardId}`);
@@ -39,16 +15,9 @@ const HomePage = () => {
     <div style={styles.container}>
       <h1 style={styles.heading}>Welcome to the Home Page!</h1>
       <div style={styles.addBoardContainer}>
-        <input
-          type="text"
-          value={newBoardTitle}
-          onChange={(e) => setNewBoardTitle(e.target.value)}
-          placeholder="Enter new board title"
-          style={styles.input}
-        />
-        <button onClick={handleAddBoard} style={styles.addButton}>
-          Add Board
-        </button>
+        <Link to="/new-board" style={styles.link}>
+          Create a New Board
+        </Link>
       </div>
       <div style={styles.boardButtonsContainer}>
         {boards.map((board) => (
@@ -98,6 +67,16 @@ const styles = {
     color: "#fff",
     border: "none",
     borderRadius: "5px",
+  },
+  link: {
+    padding: "10px",
+    margin: "8px",
+    cursor: "pointer",
+    backgroundColor: "#3498db",
+    color: "#fff",
+    border: "none",
+    borderRadius: "5px",
+    textDecoration: "none",
   },
 };
 
