@@ -1,13 +1,15 @@
 // App.js
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import Board from "./components/Board";
-import { addBoard, addList, addCard } from "./slices/boardSlice";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import HomePage from "./pages/HomePage";
+import BoardPage from "./pages/BoardPage";
+import { addBoard } from "./slices/boardSlice";
 import sampleData from "./data";
 
 const App = () => {
-  const boards = useSelector((state) => state.board);
   const dispatch = useDispatch();
+  const boards = useSelector((state) => state.board);
 
   useEffect(() => {
     // Check if the Redux state is empty
@@ -16,39 +18,18 @@ const App = () => {
       sampleData.forEach((board) => {
         // Add an 'id' property to each board
         const newBoard = { id: Date.now(), ...board };
-        dispatch(addBoard({ newBoard })); // Dispatch addBoard action here
+        dispatch(addBoard({ newBoard }));
       });
     }
   }, [boards, dispatch]);
 
-  const handleAddList = (boardId, newListTitle) => {
-    dispatch(
-      addList({
-        boardId,
-        newList: { id: Date.now(), title: newListTitle, cards: [] },
-      })
-    );
-  };
-
-  const handleAddCard = (listId, newCardTitle) => {
-    dispatch(
-      addCard({ listId, newCard: { id: Date.now(), title: newCardTitle } })
-    );
-  };
-
   return (
-    <div className="app">
-      {boards.map((board) => (
-        <Board
-          key={board.id}
-          board={board}
-          onAddList={(newListTitle) => handleAddList(board.id, newListTitle)}
-          onAddCard={(listId, newCardTitle) =>
-            handleAddCard(listId, newCardTitle)
-          }
-        />
-      ))}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/board/:boardId" element={<BoardPage />} />
+      </Routes>
+    </Router>
   );
 };
 
