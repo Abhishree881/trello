@@ -11,3 +11,71 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* App.css */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f5f7;
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  display: flex;
+  padding: 20px;
+}
+
+.board {
+  background-color: #ebecf0;
+  border-radius: 8px;
+  margin-right: 20px;
+  padding: 10px;
+}
+
+.lists {
+  display: flex;
+}
+
+.list {
+  background-color: #dfe3e6;
+  border-radius: 8px;
+  margin-right: 10px;
+  padding: 10px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background-color: #fff;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  padding: 8px;
+}
+
+/* App.css */
+/* ... (previous styles) */
+
+.add-list,
+.add-card {
+  margin-top: 8px;
+}
+
+.add-list input,
+.add-card input {
+  width: 80%;
+  padding: 8px;
+  margin-right: 8px;
+}
+
+.add-list button,
+.add-card button {
+  background-color: #5aac44;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px;
+  cursor: pointer;
+}
