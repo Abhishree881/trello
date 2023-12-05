@@ -1,4 +1,3 @@
-// slices/index.js
 import { combineReducers } from "@reduxjs/toolkit";
 import boardReducer from "./boardSlice";
 

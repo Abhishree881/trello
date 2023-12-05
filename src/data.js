@@ -1,4 +1,3 @@
-// data.js
 const sampleData = [
   {
     id: 1,

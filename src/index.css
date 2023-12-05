@@ -1,23 +1,15 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f5f7;
+  padding: 0;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-/* App.css */
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f5f7;
-  margin: 0;
-  padding: 0;
 }
 
 .app {
@@ -54,9 +46,6 @@ li {
   margin-bottom: 4px;
   padding: 8px;
 }
-
-/* App.css */
-/* ... (previous styles) */
 
 .add-list,
 .add-card {

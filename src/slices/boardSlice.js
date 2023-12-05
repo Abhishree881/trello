@@ -1,4 +1,3 @@
-// slices/boardSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const boardSlice = createSlice({
