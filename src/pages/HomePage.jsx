@@ -16,18 +16,19 @@ const HomePage = () => {
       return;
     }
 
-    dispatch(
-      addBoard({
-        newBoard: {
-          id: Date.now(),
-          title: newBoardTitle,
-          lists: [],
-        },
-      })
-    );
+    const newBoard = {
+      id: Date.now(),
+      title: newBoardTitle,
+      lists: [],
+    };
+
+    dispatch(addBoard({ newBoard }));
 
     // Clear input after adding a new board
     setNewBoardTitle("");
+
+    // Redirect to the new board
+    navigate(`/board/${newBoard.id}`);
   };
 
   const handleBoardClick = (boardId) => {
