@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addBoard } from "../slices/boardSlice";
 import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
@@ -12,6 +13,11 @@ const NewBoardPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [newBoardTitle, setNewBoardTitle] = useState("");
+  const boards = useSelector((state) => state.board);
+
+  const handleBoardClick = (boardId) => {
+    navigate(`/board/${boardId}`);
+  };
 
   const handleAddBoard = async () => {
     if (newBoardTitle.trim() === "") {
@@ -51,44 +57,49 @@ const NewBoardPage = () => {
     <div className="main">
       <Sidebar />
       <div className="content">
-        <h1 style={styles.heading}>Create a New Board</h1>
-        <div style={styles.addBoardContainer}>
-          <input
-            type="text"
-            value={newBoardTitle}
-            onChange={(e) => setNewBoardTitle(e.target.value)}
-            placeholder="Enter new board title"
-            style={styles.input}
-          />
-          <button onClick={handleAddBoard} style={styles.addButton}>
-            Add Board
-          </button>
+        <div className="create-page">
+          <div className="create-card">
+            <div className="card">
+              <img
+                alt="cover"
+                src="https://trello.com/assets/e8544e0e1b2824e4ac46.svg"
+              />
+              <h4>Organize anything</h4>
+              <p>
+                Put everything in one place and start moving things forward with
+                your first Trello board!
+              </p>
+              <div className="create-button">
+                <input
+                  type="text"
+                  value={newBoardTitle}
+                  onChange={(e) => setNewBoardTitle(e.target.value)}
+                  placeholder="What are you working on?"
+                />
+                <button onClick={handleAddBoard}>Create your board</button>
+              </div>
+            </div>
+          </div>
+          <div className="recent-boards">
+            <h3>Recent Boards</h3>
+            {boards.map((board) => (
+              <div
+                className="recent-board-tile"
+                key={board.id}
+                onClick={() => handleBoardClick(board.id)}
+              >
+                <img
+                  alt="cover"
+                  src="https://th.bing.com/th/id/R.c65ba403ed9c885568de22510fcc3b77?rik=TrhFTNlIZ8DfAg&riu=http%3a%2f%2fyesofcorsa.com%2fwp-content%2fuploads%2f2019%2f05%2f4K-Landscape-Scenery-Wallpaper-Full-HD.jpg&ehk=MDJLn%2bql5jTVqnH8yRuQ3iZpsbPkkrGNJLNnnlvQlHU%3d&risl=&pid=ImgRaw&r=0"
+                ></img>
+                <span className="">{board.title}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    textAlign: "center",
-    padding: "20px",
-  },
-  heading: {
-    fontSize: "24px",
-    marginBottom: "20px",
-  },
-  addBoardContainer: {
-    marginBottom: "20px",
-  },
-  input: {
-    padding: "8px",
-    marginRight: "8px",
-  },
-  addButton: {
-    padding: "8px",
-    cursor: "pointer",
-  },
 };
 
 export default NewBoardPage;

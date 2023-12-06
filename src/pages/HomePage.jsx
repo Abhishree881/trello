@@ -16,72 +16,46 @@ const HomePage = () => {
     <div className="main home">
       <Sidebar />
       <div className="content">
-        <h1 style={styles.heading}>Welcome to the Home Page!</h1>
-        <div style={styles.addBoardContainer}>
-          <Link to="/new-board" style={styles.link}>
-            Create a New Board
-          </Link>
-        </div>
-        <div style={styles.boardButtonsContainer}>
+        <h1 className="home-head">All Boards</h1>
+        <div className="boards-list">
           {boards.map((board) => (
-            <button
+            <div
+              className="board-tile tile"
               key={board.id}
               onClick={() => handleBoardClick(board.id)}
-              style={styles.boardButton}
             >
-              {board.title}
-            </button>
+              <img
+                alt="cover"
+                src="https://th.bing.com/th/id/R.c65ba403ed9c885568de22510fcc3b77?rik=TrhFTNlIZ8DfAg&riu=http%3a%2f%2fyesofcorsa.com%2fwp-content%2fuploads%2f2019%2f05%2f4K-Landscape-Scenery-Wallpaper-Full-HD.jpg&ehk=MDJLn%2bql5jTVqnH8yRuQ3iZpsbPkkrGNJLNnnlvQlHU%3d&risl=&pid=ImgRaw&r=0"
+              ></img>
+              <span className="board-title">{board.title}</span>
+            </div>
           ))}
+        </div>
+        <h1 className="home-head">Your Boards</h1>
+        <div className="boards-list">
+          {boards.map((board) => (
+            <div
+              className="board-tile tile"
+              key={board.id}
+              onClick={() => handleBoardClick(board.id)}
+            >
+              <img
+                alt="cover"
+                src="https://th.bing.com/th/id/R.c65ba403ed9c885568de22510fcc3b77?rik=TrhFTNlIZ8DfAg&riu=http%3a%2f%2fyesofcorsa.com%2fwp-content%2fuploads%2f2019%2f05%2f4K-Landscape-Scenery-Wallpaper-Full-HD.jpg&ehk=MDJLn%2bql5jTVqnH8yRuQ3iZpsbPkkrGNJLNnnlvQlHU%3d&risl=&pid=ImgRaw&r=0"
+              ></img>
+              <span className="board-title">{board.title}</span>
+            </div>
+          ))}
+          <div className="board-tile create-board">
+            <Link className="create-board-link" to="/new-board">
+              Create new board
+            </Link>
+          </div>
         </div>
       </div>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    textAlign: "center",
-    padding: "20px",
-  },
-  heading: {
-    fontSize: "24px",
-    marginBottom: "20px",
-  },
-  addBoardContainer: {
-    marginBottom: "20px",
-  },
-  input: {
-    padding: "8px",
-    marginRight: "8px",
-  },
-  addButton: {
-    padding: "8px",
-    cursor: "pointer",
-  },
-  boardButtonsContainer: {
-    display: "flex",
-    justifyContent: "center",
-    flexWrap: "wrap",
-  },
-  boardButton: {
-    padding: "10px",
-    margin: "8px",
-    cursor: "pointer",
-    backgroundColor: "#3498db",
-    color: "#fff",
-    border: "none",
-    borderRadius: "5px",
-  },
-  link: {
-    padding: "10px",
-    margin: "8px",
-    cursor: "pointer",
-    backgroundColor: "#3498db",
-    color: "#fff",
-    border: "none",
-    borderRadius: "5px",
-    textDecoration: "none",
-  },
 };
 
 export default HomePage;
