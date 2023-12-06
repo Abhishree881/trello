@@ -1,18 +1,31 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { BiStats } from "react-icons/bi";
 import { FaTrello } from "react-icons/fa";
 import UserProfile from "../components/UserProfile";
 import "../styles/home.css";
 
 const Sidebar = ({ setMain }) => {
+  const location = useLocation();
   return (
     <div className="sidebar">
-      <Link className="sidebar-items" to="/">
+      <Link
+        className={
+          location.pathname === "/new-board"
+            ? "sidebar-items"
+            : "sidebar-items active"
+        }
+        to="/"
+      >
         <FaTrello />
         Boards
       </Link>
-      <Link className="sidebar-items" to="/new-board">
+      <Link
+        className={
+          location.pathname === "/" ? "sidebar-items" : "sidebar-items active"
+        }
+        to="/new-board"
+      >
         <BiStats />
         Home
       </Link>

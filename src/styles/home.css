@@ -36,6 +36,11 @@
     opacity: 0.58;
 }
 
+.active {
+    background-color: #1c2b41;
+    color: #5191eb;
+}
+
 .content {
     width: 70%;
     display: flex;
