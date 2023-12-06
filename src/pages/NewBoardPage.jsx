@@ -2,13 +2,23 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addBoard } from "../slices/boardSlice";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  updateDoc,
+  setDoc,
+} from "firebase/firestore";
+import { db } from "../firebase";
+import { auth } from "../firebase";
 
 const NewBoardPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [newBoardTitle, setNewBoardTitle] = useState("");
 
-  const handleAddBoard = () => {
+  const handleAddBoard = async () => {
     if (newBoardTitle.trim() === "") {
       // Don't add a board with an empty title
       return;
@@ -21,6 +31,19 @@ const NewBoardPage = () => {
     };
 
     dispatch(addBoard({ newBoard }));
+    const user = auth.currentUser;
+    if (user) {
+      const userDocRef = doc(db, "users", user.uid);
+      const userDocSnapshot = await getDoc(userDocRef);
+
+      if (userDocSnapshot.exists()) {
+        const updatedBoards = [...userDocSnapshot.data().boards, newBoard];
+        updateDoc(userDocRef, { boards: updatedBoards });
+      } else {
+        const newUserDocRef = doc(db, "users", user.uid);
+        await setDoc(newUserDocRef, { boards: [newBoard] });
+      }
+    }
 
     // Clear input after adding a new board
     setNewBoardTitle("");

@@ -17,7 +17,7 @@ const BoardPage = () => {
 
   return (
     <div>
-      <h1>{board.title}</h1>
+      {/* <h1>{board.title}</h1> */}
       <Board board={board} />
     </div>
   );

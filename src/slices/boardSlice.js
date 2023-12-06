@@ -35,8 +35,19 @@ const boardSlice = createSlice({
         });
       });
     },
+    setBoards: (state, action) => {
+      const boards = action.payload;
+      state.splice(0, state.length, ...boards); // Clear existing boards and add new ones
+
+      // Update user-specific boards in Firestore
+      // const user = auth.currentUser;
+      // if (user) {
+      //   const userDocRef = doc(db, "users", user.uid);
+      //   updateDoc(userDocRef, { boards });
+      // }
+    },
   },
 });
 
-export const { addBoard, addList, addCard } = boardSlice.actions;
+export const { addBoard, addList, addCard, setBoards } = boardSlice.actions;
 export default boardSlice.reducer;

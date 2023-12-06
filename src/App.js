@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import NewBoardPage from "./pages/NewBoardPage";
@@ -11,24 +11,42 @@ import { addBoard } from "./slices/boardSlice";
 import sampleData from "./data";
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "./firebase";
 
 const App = () => {
   const dispatch = useDispatch();
   const boards = useSelector((state) => state.board);
-  const [user, setUser] = React.useState(null);
+  const [user, setUser] = useState(null);
 
-  // Initialize with sample data
-  React.useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
-    });
 
-    if (boards.length === 0) {
-      sampleData.forEach((board) => {
-        const newBoard = { id: Date.now(), ...board };
-        dispatch(addBoard({ newBoard }));
-      });
-    }
+      if (user) {
+        // If user is signed in, retrieve user-specific boards from Firestore and set in Redux
+        const userDocRef = doc(db, "users", user.uid);
+        const userDocSnapshot = await getDoc(userDocRef);
+
+        if (userDocSnapshot.exists()) {
+          const userData = userDocSnapshot.data();
+          if (boards.length === 0) {
+            userData.boards.forEach((board) => {
+              const newBoard = { id: board.id, ...board };
+              dispatch(addBoard({ newBoard }));
+            });
+          }
+        } else {
+          // If user is not signed in, initialize with sample data
+          if (boards.length === 0) {
+            sampleData.forEach((board) => {
+              const newBoard = { id: Date.now(), ...board };
+              dispatch(addBoard({ newBoard }));
+            });
+          }
+        }
+      }
+    });
 
     return () => unsubscribe();
   }, [boards, dispatch]);

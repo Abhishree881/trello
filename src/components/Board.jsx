@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import List from "./List";
-import { addList, addCard } from "../slices/boardSlice";
+import { addList } from "../slices/boardSlice";
 
 const Board = ({ board }) => {
   const dispatch = useDispatch();
@@ -17,22 +17,12 @@ const Board = ({ board }) => {
     }
   };
 
-  const handleAddCard = (listId, newCardTitle) => {
-    dispatch(
-      addCard({ listId, newCard: { id: Date.now(), title: newCardTitle } })
-    );
-  };
-
   return (
     <div className="board">
       <h2>{board.title}</h2>
       <div className="lists">
         {board.lists.map((list) => (
-          <List
-            key={list.id}
-            list={list}
-            onAddCard={(cardTitle) => handleAddCard(list.id, cardTitle)}
-          />
+          <List key={list.id} list={list} />
         ))}
         {isAddingList ? (
           <div className="add-list">
