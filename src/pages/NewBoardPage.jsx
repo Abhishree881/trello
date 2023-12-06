@@ -5,6 +5,8 @@ import { addBoard } from "../slices/boardSlice";
 import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { auth } from "../firebase";
+import Sidebar from "../components/Sidebar";
+import "../styles/home.css";
 
 const NewBoardPage = () => {
   const navigate = useNavigate();
@@ -46,19 +48,22 @@ const NewBoardPage = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.heading}>Create a New Board</h1>
-      <div style={styles.addBoardContainer}>
-        <input
-          type="text"
-          value={newBoardTitle}
-          onChange={(e) => setNewBoardTitle(e.target.value)}
-          placeholder="Enter new board title"
-          style={styles.input}
-        />
-        <button onClick={handleAddBoard} style={styles.addButton}>
-          Add Board
-        </button>
+    <div className="main">
+      <Sidebar />
+      <div className="content">
+        <h1 style={styles.heading}>Create a New Board</h1>
+        <div style={styles.addBoardContainer}>
+          <input
+            type="text"
+            value={newBoardTitle}
+            onChange={(e) => setNewBoardTitle(e.target.value)}
+            placeholder="Enter new board title"
+            style={styles.input}
+          />
+          <button onClick={handleAddBoard} style={styles.addButton}>
+            Add Board
+          </button>
+        </div>
       </div>
     </div>
   );

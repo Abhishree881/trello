@@ -1,6 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
+import "../styles/home.css";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -11,23 +13,26 @@ const HomePage = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.heading}>Welcome to the Home Page!</h1>
-      <div style={styles.addBoardContainer}>
-        <Link to="/new-board" style={styles.link}>
-          Create a New Board
-        </Link>
-      </div>
-      <div style={styles.boardButtonsContainer}>
-        {boards.map((board) => (
-          <button
-            key={board.id}
-            onClick={() => handleBoardClick(board.id)}
-            style={styles.boardButton}
-          >
-            {board.title}
-          </button>
-        ))}
+    <div className="main home">
+      <Sidebar />
+      <div className="content">
+        <h1 style={styles.heading}>Welcome to the Home Page!</h1>
+        <div style={styles.addBoardContainer}>
+          <Link to="/new-board" style={styles.link}>
+            Create a New Board
+          </Link>
+        </div>
+        <div style={styles.boardButtonsContainer}>
+          {boards.map((board) => (
+            <button
+              key={board.id}
+              onClick={() => handleBoardClick(board.id)}
+              style={styles.boardButton}
+            >
+              {board.title}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );

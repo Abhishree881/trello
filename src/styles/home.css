@@ -1,0 +1,43 @@
+.main {
+    display: flex;
+    max-width: 70%;
+    margin: 5vh auto;
+}
+
+.sidebar {
+    width: 25%;
+    margin-right: 5%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 3vh;
+}
+
+.sidebar-items {
+    color: #9eacba;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 3% 5%;
+    border-radius: 7px;
+    gap: 15px;
+    font-weight: 600;
+    margin: 3%;
+}
+
+.sidebar-items:hover {
+    background-color: #282d33;
+}
+
+.sidebar hr {
+    width: 94%;
+    margin: 3%;
+    border-color: #2e353a;
+    height: 0.1px;
+    opacity: 0.58;
+}
+
+.content {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}

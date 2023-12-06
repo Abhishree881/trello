@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
+import "../styles/profile.css";
 
 const UserProfile = () => {
   const [userEmail, setUserEmail] = useState(null);
@@ -27,29 +28,15 @@ const UserProfile = () => {
 
     return (
       <div className="user-profile">
-        <div className="avatar" style={avatarStyle}>
-          {avatarInitial}
-        </div>
+        <div className="profile-avatar">{avatarInitial}</div>
         <div className="greeting">
-          <p>Hello, {displayName}!</p>
+          <p>Hello {displayName}!</p>
         </div>
       </div>
     );
   };
 
   return <div>{renderUserProfile()}</div>;
-};
-
-const avatarStyle = {
-  backgroundColor: "#42b987",
-  color: "#1d2125",
-  fontSize: "24px",
-  width: "48px",
-  height: "48px",
-  borderRadius: "50%",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
 };
 
 export default UserProfile;
