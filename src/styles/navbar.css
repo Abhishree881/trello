@@ -1,0 +1,106 @@
+.nav {
+    display: flex;
+    align-self: center;
+    justify-content: space-between;
+    max-width: 100%;
+    padding: .3% 2%;
+    color: #9eacba;
+    border-bottom: 1px solid #2e353a;
+}
+
+.nav-items {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 70%;
+}
+
+.nav-links {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #9eacba;
+    font-weight: 500;
+    padding: .7% 1.5%;
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-links:hover {
+    background-color: #282d33;
+}
+
+.home-link {
+    font-weight: 900;
+    font-size: 18px;
+}
+
+.avatar {
+    background-color: #172b4d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 10px;
+    margin: .5% 0;
+    font-weight: 600;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    aspect-ratio: 1/1;
+    transition: all 0.1s ease-in;
+}
+
+.first:hover {
+    box-shadow: 0 0 5px darkslategray;
+}
+
+.submenu {
+    position: absolute;
+    top: 7.1%;
+    right: 3px;
+    background-color: #282e33;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    border: 1px solid #525151;
+    padding-bottom: 15px;
+}
+
+.submenu h3 {
+    padding: 10px 15px;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.profile {
+    padding: 10px 20px;
+    padding-top: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+}
+
+.alt {
+    font-size: 18px;
+    font-weight: 500;
+    height: 50px;
+    width: 50px;
+    cursor: default;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.submenu-item {
+    padding: 5px 15px;
+    cursor: pointer;
+}
+
+.submenu-item:hover {
+    background-color: #2C3339;
+}
