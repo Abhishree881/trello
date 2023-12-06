@@ -104,3 +104,37 @@
 .submenu-item:hover {
     background-color: #2C3339;
 }
+
+@media (max-width:1150px) {
+    .submenu {
+        top: 5.5%;
+    }
+}
+
+@media (max-width:600px) {
+    .nav {
+        font-size: 13px;
+    }
+
+    .home-link {
+        font-size: 15px;
+    }
+
+    .first {
+        font-size: 8px;
+    }
+
+    .submenu {
+        top: 4.5%;
+    }
+
+    .submenu, .user-info {
+        font-size: 12px;
+    }
+
+    .alt {
+        font-size: 12px;
+        width: 25px;
+        height: 25px;
+    }
+}

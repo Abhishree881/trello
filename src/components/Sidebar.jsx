@@ -5,7 +5,7 @@ import { FaTrello } from "react-icons/fa";
 import UserProfile from "../components/UserProfile";
 import "../styles/home.css";
 
-const Sidebar = ({ setMain }) => {
+const Sidebar = () => {
   const location = useLocation();
   return (
     <div className="sidebar">
