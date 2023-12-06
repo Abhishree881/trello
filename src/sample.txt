@@ -2,30 +2,6 @@ import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { auth } from "../firebase/auth";
 
-export const addListAsync = (boardId, newList) => async (dispatch) => {
-  dispatch(addList({ boardId, newList }));
-
-  // Update board in Firestore
-  const board = { id: boardId, lists: [...newList] };
-  updateBoardInFirestore(board);
-};
-
-// Helper function to update board in Firestore
-const updateBoardInFirestore = async (board) => {
-  const user = auth.currentUser;
-  if (user) {
-    const userDocRef = doc(db, "users", user.uid);
-    const userDocSnapshot = await getDoc(userDocRef);
-
-    if (userDocSnapshot.exists()) {
-      const updatedBoards = userDocSnapshot.data().boards.map((b) =>
-        b.id === board.id ? board : b
-      );
-
-      updateDoc(userDocRef, { boards: updatedBoards });
-    }
-  }
-};
 
 export const addCardAsync = (listId, newCard) => async (dispatch) => {
   dispatch(addCard({ listId, newCard }));
@@ -50,23 +26,6 @@ export const addCardAsync = (listId, newCard) => async (dispatch) => {
         }
         return board;
       });
-
-      updateDoc(userDocRef, { boards: updatedBoards });
-    }
-  }
-};
-
-// Helper function to update board in Firestore
-const updateBoardInFirestore = async (board) => {
-  const user = auth.currentUser;
-  if (user) {
-    const userDocRef = doc(db, "users", user.uid);
-    const userDocSnapshot = await getDoc(userDocRef);
-
-    if (userDocSnapshot.exists()) {
-      const updatedBoards = userDocSnapshot.data().boards.map((b) =>
-        b.id === board.id ? board : b
-      );
 
       updateDoc(userDocRef, { boards: updatedBoards });
     }

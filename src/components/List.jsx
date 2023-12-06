@@ -2,11 +2,40 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import Card from "./Card";
 import { addCard } from "../slices/boardSlice";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase";
+import { auth } from "../firebase";
 
 const List = ({ list }) => {
   const dispatch = useDispatch();
   const [newCardTitle, setNewCardTitle] = useState("");
   const [isAddingCard, setIsAddingCard] = useState(false);
+
+  const updateBoardInFirestore = async (listId, newCard) => {
+    const user = auth.currentUser;
+    if (user) {
+      const userDocRef = doc(db, "users", user.uid);
+      const userDocSnapshot = await getDoc(userDocRef);
+
+      if (userDocSnapshot.exists()) {
+        const updatedBoards = userDocSnapshot.data().boards.map((board) => {
+          const updatedLists = board.lists.map((list) => {
+            if (list.id === listId) {
+              return { ...list, cards: [...list.cards, newCard] };
+            }
+            return list;
+          });
+
+          if (board.lists.some((list) => list.id === listId)) {
+            return { ...board, lists: updatedLists };
+          }
+          return board;
+        });
+
+        updateDoc(userDocRef, { boards: updatedBoards });
+      }
+    }
+  };
 
   const handleAddCard = () => {
     if (newCardTitle.trim() !== "") {
@@ -16,6 +45,8 @@ const List = ({ list }) => {
           newCard: { id: Date.now(), title: newCardTitle },
         })
       );
+      const newCard = { id: Date.now(), title: newCardTitle };
+      updateBoardInFirestore(list.id, newCard);
       setNewCardTitle("");
       setIsAddingCard(false);
     }
