@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import "../styles/signin.css";
+import { FaUser } from "react-icons/fa";
+import { FaLock } from "react-icons/fa";
+import { FaChevronRight } from "react-icons/fa";
 
 const SignInPage = () => {
   const navigate = useNavigate();
@@ -21,71 +25,56 @@ const SignInPage = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <h2 style={styles.heading}>Sign In</h2>
-      <form onSubmit={handleSignIn} style={styles.form}>
-        <label style={styles.label}>Email:</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          style={styles.input}
-        />
-        <br />
-        <label style={styles.label}>Password:</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={styles.input}
-        />
-        <br />
-        <button type="submit" style={styles.button}>
-          Sign In
-        </button>
-      </form>
-      <p style={styles.link}>
-        Don't have an account? <Link to="/signup">Sign Up</Link>
-      </p>
+    <div className="signin">
+      <div className="container">
+        <div className="screen">
+          <div className="screen__content">
+            <div class="screen__background">
+              <span class="screen__background__shape screen__background__shape4"></span>
+              <span class="screen__background__shape screen__background__shape3"></span>
+              <span class="screen__background__shape screen__background__shape2"></span>
+              <span class="screen__background__shape screen__background__shape1"></span>
+            </div>
+            <form onSubmit={handleSignIn} className="login">
+              <div className="login__field">
+                {/* <label style={styles.label}>Email:</label> */}
+                <FaUser className="login__icon" />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="login__input"
+                />
+              </div>
+              <div className="login__field">
+                {/* <label style={styles.label}>Password:</label> */}
+                <FaLock className="login__icon" />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="login__input"
+                />
+              </div>
+              <button type="submit" className="button login__submit">
+                <span className="button__text">Sign In</span>
+                <FaChevronRight className="button__icon" />
+              </button>
+            </form>
+
+            <p className="change-link">
+              Don't have an account?{" "}
+              <Link className="linkto" to="/signup">
+                Sign Up
+              </Link>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    textAlign: "center",
-    maxWidth: "400px",
-    margin: "auto",
-    paddingTop: "50px",
-  },
-  heading: {
-    fontSize: "24px",
-    marginBottom: "20px",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  label: {
-    marginBottom: "8px",
-  },
-  input: {
-    padding: "8px",
-    marginBottom: "16px",
-  },
-  button: {
-    padding: "10px",
-    backgroundColor: "#3498db",
-    color: "#fff",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-  },
-  link: {
-    marginTop: "20px",
-    fontSize: "14px",
-  },
 };
 
 export default SignInPage;
