@@ -11,7 +11,7 @@ import { addBoard } from "./slices/boardSlice";
 import sampleData from "./data";
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { getDoc, doc } from "firebase/firestore";
+import { getDoc, doc, setDoc } from "firebase/firestore";
 import { db } from "./firebase";
 
 const App = () => {
@@ -37,9 +37,10 @@ const App = () => {
             });
           }
         } else {
-          // If user is not signed in, initialize with sample data
           if (boards.length === 0) {
-            sampleData.forEach((board) => {
+            const newUserDocRef = doc(db, "users", user.uid);
+            await setDoc(newUserDocRef, { boards: sampleData });
+            sampleData.forEach(async (board) => {
               const newBoard = { id: Date.now(), ...board };
               dispatch(addBoard({ newBoard }));
             });
