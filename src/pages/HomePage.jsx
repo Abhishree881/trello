@@ -19,7 +19,6 @@ const HomePage = () => {
         </Link>
       </div>
       <div style={styles.boardButtonsContainer}>
-        {console.log(boards)}
         {boards.map((board) => (
           <button
             key={board.id}
