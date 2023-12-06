@@ -90,7 +90,7 @@ const NewBoardPage = () => {
               >
                 <img
                   alt="cover"
-                  src="https://th.bing.com/th/id/R.c65ba403ed9c885568de22510fcc3b77?rik=TrhFTNlIZ8DfAg&riu=http%3a%2f%2fyesofcorsa.com%2fwp-content%2fuploads%2f2019%2f05%2f4K-Landscape-Scenery-Wallpaper-Full-HD.jpg&ehk=MDJLn%2bql5jTVqnH8yRuQ3iZpsbPkkrGNJLNnnlvQlHU%3d&risl=&pid=ImgRaw&r=0"
+                  src="https://png.pngtree.com/thumb_back/fw800/background/20230411/pngtree-forest-landscape-moon-nature-landscape-cartoon-background-decoration-illustration-game-background-image_2183530.jpg"
                 ></img>
                 <span className="">{board.title}</span>
               </div>

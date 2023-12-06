@@ -15,22 +15,35 @@ body {
   padding: 20px;
 }
 
-.board {
-  background-color: #ebecf0;
-  border-radius: 8px;
-  margin-right: 20px;
-  padding: 10px;
-}
 
 .lists {
   display: flex;
+  padding: 1% 2%;
 }
 
 .list {
-  background-color: #dfe3e6;
-  border-radius: 8px;
+  background-color: rgb(16, 8, 4, 0.9);
+  border-radius: 15px;
+  min-width: 15%;
   margin-right: 10px;
   padding: 10px;
+}
+
+.list h3 {
+  margin: 0;
+  width: 100%;
+  padding: 0 5%;
+  color: ghostwhite;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.list button {
+  background-color: transparent;
+  color: ghostwhite;
+  border: none;
+  cursor: pointer;
+  margin: 0;
 }
 
 ul {
@@ -39,7 +52,8 @@ ul {
 }
 
 li {
-  background-color: #fff;
+  background-color: rgb(34, 39, 43, 0.9);
+  color: ghostwhite;
   border-radius: 4px;
   margin-bottom: 4px;
   padding: 8px;
