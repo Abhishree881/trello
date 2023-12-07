@@ -5,6 +5,9 @@ import { addCard, editCard, deleteCard } from "../slices/boardSlice";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { auth } from "../firebase";
+import { FiEdit } from "react-icons/fi";
+import { MdDeleteForever } from "react-icons/md";
+import { CiMenuKebab } from "react-icons/ci";
 
 const List = ({
   list,
@@ -21,6 +24,7 @@ const List = ({
   const [isAddingCard, setIsAddingCard] = useState(false);
   const [showCard, setShowCard] = useState(false);
   const [showCardId, setShowCardId] = useState();
+  const [submenu, setSubmenu] = useState(false);
 
   const updateBoardInFirestore = async (listId, newCard) => {
     const user = auth.currentUser;
@@ -114,6 +118,7 @@ const List = ({
 
   const cardRef = useRef(null);
   const listTitleRef = useRef(null);
+  const submenuRef = useRef(null);
 
   const closeCard = () => {
     setIsAddingCard(false);
@@ -150,6 +155,18 @@ const List = ({
     };
   });
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (submenuRef.current && !submenuRef.current.contains(event.target)) {
+        setSubmenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       if (isAddingCard) {
@@ -175,6 +192,7 @@ const List = ({
       {isEditing ? (
         <div ref={listTitleRef}>
           <input
+            className="edit__list"
             type="text"
             value={editedListTitle}
             onKeyDown={handleKeyDown}
@@ -183,10 +201,27 @@ const List = ({
           {/* <button onClick={handleEditList}>Save</button> */}
         </div>
       ) : (
-        <h3>{list.title}</h3>
+        <h3>
+          <span>{list.title}</span>
+          <CiMenuKebab
+            onClick={() => setSubmenu(!submenu)}
+            style={{ fontSize: "12px", cursor: "pointer" }}
+          />
+        </h3>
       )}
-      <button onClick={handleEditClick}>Edit</button>
-      <button onClick={onDeleteList}>Delete</button>
+      {submenu && (
+        <div ref={submenuRef} className="edit__submenu">
+          <button className="edit-delete" onClick={handleEditClick}>
+            <FiEdit style={{ fontSize: "12px" }} />
+            Edit
+          </button>
+          <button className="edit-delete" onClick={onDeleteList}>
+            <MdDeleteForever />
+            Delete
+          </button>
+        </div>
+      )}
+
       <ul>
         {list.cards.map((card) => (
           <>

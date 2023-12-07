@@ -30,6 +30,7 @@ body {
   margin-right: 10px;
   padding: 10px;
   height: fit-content;
+  position: relative;
 }
 
 .list h3 {
@@ -40,6 +41,9 @@ body {
   font-weight: 500;
   font-size: 17px;
   margin-bottom: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .list button {
@@ -141,4 +145,32 @@ li:hover {
 
 .add-list button:hover {
   background-color: #4277c1;
+}
+
+.edit-delete {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  gap: 5px;
+}
+
+.edit__submenu {
+  position: absolute;
+  background-color: rgba(40, 33, 35, 1);
+  width: fit-content;
+  padding: 7%;
+  right: 5%;
+  border-radius: 7px;
+}
+
+.edit__list {
+  background-color: transparent;
+  font-size: inherit;
+  color: ghostwhite;
+  border: none;
+  margin-bottom: 5%;
+  padding: 0 5%;
+  outline: none;
+  border-bottom: 2px solid rgba(140, 133, 135, 0.9);
+  width: 100%;
 }
