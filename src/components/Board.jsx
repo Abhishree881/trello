@@ -45,30 +45,32 @@ const Board = ({ board }) => {
 
   return (
     <div className="board">
+      <h2>{board.title}</h2>
       <div className="board-parent">
-        <h2>{board.title}</h2>
         <div className="lists">
           {board.lists.map((list) => (
             <List key={list.id} list={list} />
           ))}
-          {isAddingList ? (
-            <div className="add-list">
-              <input
-                type="text"
-                value={newListTitle}
-                onChange={(e) => setNewListTitle(e.target.value)}
-                placeholder="Enter list title"
-              />
-              <button onClick={handleAddList}>Add List</button>
-            </div>
-          ) : (
-            <div
-              className="add-list-button"
-              onClick={() => setIsAddingList(true)}
-            >
-              + Add a list
-            </div>
-          )}
+          <div className="add-list-button-parent">
+            {isAddingList ? (
+              <div className="add-list">
+                <input
+                  type="text"
+                  value={newListTitle}
+                  onChange={(e) => setNewListTitle(e.target.value)}
+                  placeholder="Enter list title"
+                />
+                <button onClick={handleAddList}>Add List</button>
+              </div>
+            ) : (
+              <div
+                className="add-list-button"
+                onClick={() => setIsAddingList(true)}
+              >
+                + Add a list
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
