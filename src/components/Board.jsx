@@ -151,6 +151,7 @@ const Board = ({ board }) => {
   return (
     <div className="board">
       <h2
+        className="board__title"
         ref={boardTitleRef}
         onClick={() => setIsEditingBoardTitle(true)}
         style={{ cursor: "pointer" }}
