@@ -35,8 +35,31 @@ const boardSlice = createSlice({
         });
       });
     },
+    editCard: (state, action) => {
+      const { listId, cardId, editedCard } = action.payload;
+      state.forEach((board) => {
+        board.lists.forEach((list) => {
+          if (list.id === listId) {
+            list.cards = list.cards.map((card) =>
+              card.id === cardId ? { ...card, ...editedCard } : card
+            );
+          }
+        });
+      });
+    },
+    deleteCard: (state, action) => {
+      const { listId, cardId } = action.payload;
+      state.forEach((board) => {
+        board.lists.forEach((list) => {
+          if (list.id === listId) {
+            list.cards = list.cards.filter((card) => card.id !== cardId);
+          }
+        });
+      });
+    },
   },
 });
 
-export const { addBoard, addList, addCard, setBoards } = boardSlice.actions;
+export const { addBoard, addList, addCard, editCard, deleteCard } =
+  boardSlice.actions;
 export default boardSlice.reducer;

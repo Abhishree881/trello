@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import Card from "./Card";
-import { addCard } from "../slices/boardSlice";
+import { addCard, editCard, deleteCard } from "../slices/boardSlice";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { auth } from "../firebase";
@@ -10,6 +10,7 @@ const List = ({ list }) => {
   const dispatch = useDispatch();
   const [newCardTitle, setNewCardTitle] = useState("");
   const [isAddingCard, setIsAddingCard] = useState(false);
+  const [showCard, setShowCard] = useState(false);
 
   const updateBoardInFirestore = async (listId, newCard) => {
     const user = auth.currentUser;
@@ -37,6 +38,45 @@ const List = ({ list }) => {
     }
   };
 
+  const editBoardInFirestore = async (listId, editedCard, cardId) => {
+    const user = auth.currentUser;
+    if (user) {
+      const userDocRef = doc(db, "users", user.uid);
+      const userDocSnapshot = await getDoc(userDocRef);
+
+      if (userDocSnapshot.exists()) {
+        const updatedBoards = userDocSnapshot.data().boards.map((board) => {
+          const updatedLists = board.lists.map((list) => {
+            if (list.id === listId) {
+              if (editedCard) {
+                // Update the card if it's an edit
+                const updatedCards = list.cards.map((card) =>
+                  card.id === cardId ? { ...card, ...editedCard } : card
+                );
+                return { ...list, cards: updatedCards };
+              } else {
+                // Remove the card if it's a deletion
+                return {
+                  ...list,
+                  cards: list.cards.filter((card) => card.id !== cardId),
+                };
+              }
+            }
+
+            return list;
+          });
+
+          if (board.lists.some((list) => list.id === listId)) {
+            return { ...board, lists: updatedLists };
+          }
+          return board;
+        });
+
+        await updateDoc(userDocRef, { boards: updatedBoards });
+      }
+    }
+  };
+
   const handleAddCard = () => {
     if (newCardTitle.trim() !== "") {
       dispatch(
@@ -50,6 +90,16 @@ const List = ({ list }) => {
       setNewCardTitle("");
       setIsAddingCard(false);
     }
+  };
+
+  const handleEditCard = (cardId, editedCard) => {
+    dispatch(editCard({ listId: list.id, cardId, editedCard }));
+    editBoardInFirestore(list.id, editedCard, cardId);
+  };
+
+  const handleDeleteCard = (cardId) => {
+    dispatch(deleteCard({ listId: list.id, cardId }));
+    editBoardInFirestore(list.id, null, cardId);
   };
 
   const cardRef = useRef(null);
@@ -81,7 +131,19 @@ const List = ({ list }) => {
       <h3>{list.title}</h3>
       <ul>
         {list.cards.map((card) => (
-          <Card key={card.id} cardTitle={card.title} />
+          <>
+            {showCard ? (
+              <Card
+                key={card.id}
+                card={card}
+                onEditCard={handleEditCard}
+                setShowCard={setShowCard}
+                onDelete={() => handleDeleteCard(card.id)}
+              />
+            ) : (
+              <li onClick={() => setShowCard(true)}>{card.title}</li>
+            )}
+          </>
         ))}
       </ul>
       {isAddingCard ? (
