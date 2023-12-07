@@ -8,6 +8,13 @@ const boardSlice = createSlice({
       const { newBoard } = action.payload;
       state.push(newBoard);
     },
+    editBoard: (state, action) => {
+      const { boardId, newTitle } = action.payload;
+      const board = state.find((board) => board.id === boardId);
+      if (board) {
+        board.title = newTitle;
+      }
+    },
     addList: (state, action) => {
       const { boardId, newList } = action.payload;
       const board = state.find((board) => board.id === boardId);
@@ -80,6 +87,7 @@ const boardSlice = createSlice({
 
 export const {
   addBoard,
+  editBoard,
   addList,
   editList,
   deleteList,

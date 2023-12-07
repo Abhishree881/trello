@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import List from "./List";
-import { addList, editList, deleteList } from "../slices/boardSlice";
+import { addList, editList, deleteList, editBoard } from "../slices/boardSlice";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { auth } from "../firebase";
@@ -12,8 +12,9 @@ const Board = ({ board }) => {
   const [newListTitle, setNewListTitle] = useState("");
   const [editedListTitle, setEditedListTitle] = useState("");
   const [isAddingList, setIsAddingList] = useState(false);
-  // const [isEditingList, setIsEditingList] = useState(false);
   const [editingListId, setEditingListId] = useState(null);
+  const [isEditingBoardTitle, setIsEditingBoardTitle] = useState(false);
+  const [boardTitle, setBoardTitle] = useState(board.title);
 
   const updateBoardInFirestore = async (currBoard) => {
     const user = auth.currentUser;
@@ -89,12 +90,27 @@ const Board = ({ board }) => {
     updateBoardInFirestore(currBoard);
   };
 
+  const handleEditBoardTitle = () => {
+    if (boardTitle.trim() !== "") {
+      const updatedBoard = {
+        ...board,
+        title: boardTitle,
+      };
+
+      dispatch(editBoard({ boardId: board.id, newTitle: boardTitle }));
+
+      updateBoardInFirestore(updatedBoard);
+      setIsEditingBoardTitle(false);
+    }
+  };
+
   const listRef = useRef(null);
+  const boardTitleRef = useRef(null);
 
   const closeInput = () => {
     setIsAddingList(false);
-    // setIsEditingList(false);
     setEditingListId(null);
+    setIsEditingBoardTitle(false);
   };
 
   useEffect(() => {
@@ -109,15 +125,52 @@ const Board = ({ board }) => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        boardTitleRef.current &&
+        !boardTitleRef.current.contains(event.target)
+      ) {
+        closeInput();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      isAddingList ? handleAddList() : handleEditList();
+      if (isAddingList) {
+        handleAddList();
+      } else if (isEditingBoardTitle) {
+        handleEditBoardTitle();
+      } else {
+        handleEditList();
+      }
     }
   };
 
   return (
     <div className="board">
-      <h2>{board.title}</h2>
+      <h2
+        ref={boardTitleRef}
+        onClick={() => setIsEditingBoardTitle(true)}
+        style={{ cursor: "pointer" }}
+      >
+        {isEditingBoardTitle ? (
+          <input
+            type="text"
+            value={boardTitle}
+            onChange={(e) => setBoardTitle(e.target.value)}
+            onBlur={handleEditBoardTitle}
+            onKeyDown={(e) => e.key === "Enter" && handleEditBoardTitle()}
+          />
+        ) : (
+          boardTitle
+        )}
+      </h2>
       <div className="board-parent">
         <div className="lists">
           {board.lists.map((list) => (
@@ -125,8 +178,6 @@ const Board = ({ board }) => {
               key={list.id}
               list={list}
               onEdit={() => {
-                // setIsEditingList(true);
-                // setEditedListTitle(editedTitle);
                 setEditingListId(list.id);
               }}
               isEditing={editingListId === list.id}
