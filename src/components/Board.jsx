@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import List from "./List";
 import { addList } from "../slices/boardSlice";
@@ -43,6 +43,24 @@ const Board = ({ board }) => {
     }
   };
 
+  const listRef = useRef(null);
+
+  const closeInput = () => {
+    setIsAddingList(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (listRef.current && !listRef.current.contains(event.target)) {
+        closeInput();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="board">
       <h2>{board.title}</h2>
@@ -53,7 +71,7 @@ const Board = ({ board }) => {
           ))}
           <div className="add-list-button-parent">
             {isAddingList ? (
-              <div className="add-list">
+              <div className="add-list" ref={listRef}>
                 <input
                   type="text"
                   value={newListTitle}
