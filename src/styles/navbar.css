@@ -122,14 +122,20 @@
 
     .first {
         font-size: 8px;
+        margin: 2% 0;
     }
 
     .submenu {
-        top: 4.5%;
+        top: 5.5%;
+        z-index: 9;
     }
 
     .submenu, .user-info {
         font-size: 12px;
+    }
+
+    .submenu-item {
+        margin: 3% 0;
     }
 
     .alt {

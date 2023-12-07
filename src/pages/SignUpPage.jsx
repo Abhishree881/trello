@@ -65,7 +65,7 @@ const SignUpPage = () => {
             </form>
 
             <p className="change-link">
-              Don't have an account?{" "}
+              Already have an account?{" "}
               <Link className="linkto" to="/signin">
                 Sign In
               </Link>

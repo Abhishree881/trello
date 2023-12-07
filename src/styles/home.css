@@ -126,13 +126,14 @@
     margin: auto;
     text-align: center;
     border-radius: 10px;
-    box-shadow: 0 0 2px black;
+    box-shadow: 0 0 10px #1c2b41;
     padding-bottom: 5%;
 }
 
 .card img {
     width: 100%;
     border-radius: 10px 10px 0 0;
+    box-shadow: 0 0 10px #1c2b41;
 }
 
 .card h4, p {
@@ -222,7 +223,7 @@
     }
 
     .main {
-        margin-top: 0;
+        margin-top: 3vh;
     }
 
     .create-card {
