@@ -25,6 +25,24 @@ const boardSlice = createSlice({
         state.push(newBoard);
       }
     },
+    editList: (state, action) => {
+      const { boardId, listId, editedList } = action.payload;
+      state.forEach((board) => {
+        if (board.id === boardId) {
+          board.lists = board.lists.map((list) =>
+            list.id === listId ? { ...list, ...editedList } : list
+          );
+        }
+      });
+    },
+    deleteList: (state, action) => {
+      const { boardId, listId } = action.payload;
+      state.forEach((board) => {
+        if (board.id === boardId) {
+          board.lists = board.lists.filter((list) => list.id !== listId);
+        }
+      });
+    },
     addCard: (state, action) => {
       const { listId, newCard } = action.payload;
       state.forEach((board) => {
@@ -60,6 +78,13 @@ const boardSlice = createSlice({
   },
 });
 
-export const { addBoard, addList, addCard, editCard, deleteCard } =
-  boardSlice.actions;
+export const {
+  addBoard,
+  addList,
+  editList,
+  deleteList,
+  addCard,
+  editCard,
+  deleteCard,
+} = boardSlice.actions;
 export default boardSlice.reducer;

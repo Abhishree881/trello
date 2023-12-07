@@ -11,6 +11,7 @@ const List = ({ list }) => {
   const [newCardTitle, setNewCardTitle] = useState("");
   const [isAddingCard, setIsAddingCard] = useState(false);
   const [showCard, setShowCard] = useState(false);
+  const [showCardId, setShowCardId] = useState();
 
   const updateBoardInFirestore = async (listId, newCard) => {
     const user = auth.currentUser;
@@ -126,13 +127,18 @@ const List = ({ list }) => {
     }
   };
 
+  const handleCardClick = (cardId) => {
+    setShowCard(true);
+    setShowCardId(cardId);
+  };
+
   return (
     <div className="list">
       <h3>{list.title}</h3>
       <ul>
         {list.cards.map((card) => (
           <>
-            {showCard ? (
+            {showCard && card.id === showCardId ? (
               <Card
                 key={card.id}
                 card={card}
@@ -141,7 +147,7 @@ const List = ({ list }) => {
                 onDelete={() => handleDeleteCard(card.id)}
               />
             ) : (
-              <li onClick={() => setShowCard(true)}>{card.title}</li>
+              <li onClick={() => handleCardClick(card.id)}>{card.title}</li>
             )}
           </>
         ))}
