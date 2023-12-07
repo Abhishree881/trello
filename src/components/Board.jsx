@@ -107,16 +107,11 @@ const Board = ({ board }) => {
   const listRef = useRef(null);
   const boardTitleRef = useRef(null);
 
-  const closeInput = () => {
-    setIsAddingList(false);
-    setEditingListId(null);
-    setIsEditingBoardTitle(false);
-  };
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (listRef.current && !listRef.current.contains(event.target)) {
-        closeInput();
+        // closeInput();
+        setIsAddingList(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -131,7 +126,8 @@ const Board = ({ board }) => {
         boardTitleRef.current &&
         !boardTitleRef.current.contains(event.target)
       ) {
-        closeInput();
+        // closeInput();
+        setIsEditingBoardTitle(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -165,7 +161,7 @@ const Board = ({ board }) => {
             value={boardTitle}
             onChange={(e) => setBoardTitle(e.target.value)}
             onBlur={handleEditBoardTitle}
-            onKeyDown={(e) => e.key === "Enter" && handleEditBoardTitle()}
+            onKeyDown={handleKeyDown}
           />
         ) : (
           boardTitle
@@ -185,6 +181,7 @@ const Board = ({ board }) => {
               setEditedListTitle={setEditedListTitle}
               handleEditList={handleEditList}
               onDeleteList={() => handleDeleteList(list.id)}
+              setEditingListId={setEditingListId}
             />
           ))}
           <div className="add-list-button-parent">

@@ -14,6 +14,7 @@ const List = ({
   setEditedListTitle,
   handleEditList,
   editedListTitle,
+  setEditingListId,
 }) => {
   const dispatch = useDispatch();
   const [newCardTitle, setNewCardTitle] = useState("");
@@ -112,6 +113,7 @@ const List = ({
   };
 
   const cardRef = useRef(null);
+  const listTitleRef = useRef(null);
 
   const closeCard = () => {
     setIsAddingCard(false);
@@ -129,9 +131,29 @@ const List = ({
     };
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        listTitleRef.current &&
+        !listTitleRef.current.contains(event.target)
+      ) {
+        // closeInput();
+        setEditingListId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      handleAddCard(e);
+      if (isAddingCard) {
+        handleAddCard(e);
+      } else {
+        handleEditList();
+      }
     }
   };
 
@@ -148,14 +170,15 @@ const List = ({
   return (
     <div className="list">
       {isEditing ? (
-        <>
+        <div ref={listTitleRef}>
           <input
             type="text"
             value={editedListTitle}
+            onKeyDown={handleKeyDown}
             onChange={(e) => setEditedListTitle(e.target.value)}
           />
           <button onClick={handleEditList}>Save</button>
-        </>
+        </div>
       ) : (
         <h3>{list.title}</h3>
       )}
