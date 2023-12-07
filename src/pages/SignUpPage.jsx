@@ -6,6 +6,8 @@ import "../styles/signin.css";
 import { FaUser } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 import { FaChevronRight } from "react-icons/fa";
+import swal from "sweetalert";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -14,13 +16,16 @@ const SignUpPage = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      navigate("/"); // Redirect to home after successful sign-up
-    } catch (error) {
-      alert(error.message);
-      console.error(error.message);
+    if (email && password) {
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        navigate("/"); // Redirect to home after successful sign-up
+      } catch (error) {
+        alert(error.message);
+        console.error(error.message);
+      }
+    } else {
+      swal("Black Error", "Email or Password missing", "error");
     }
   };
 
