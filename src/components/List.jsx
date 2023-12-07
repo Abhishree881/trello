@@ -180,7 +180,7 @@ const List = ({
             onKeyDown={handleKeyDown}
             onChange={(e) => setEditedListTitle(e.target.value)}
           />
-          <button onClick={handleEditList}>Save</button>
+          {/* <button onClick={handleEditList}>Save</button> */}
         </div>
       ) : (
         <h3>{list.title}</h3>

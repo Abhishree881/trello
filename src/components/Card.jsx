@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const Card = ({ card, onEditCard, onDelete, setShowCard }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -12,16 +12,40 @@ const Card = ({ card, onEditCard, onDelete, setShowCard }) => {
     onEditCard(card.id, { title: editedTitle });
     setIsEditing(false);
   };
+
+  const cardTitleRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        cardTitleRef.current &&
+        !cardTitleRef.current.contains(event.target)
+      ) {
+        setIsEditing(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSaveEdit();
+    }
+  };
+
   return (
     <li>
       {isEditing ? (
-        <div>
+        <div ref={cardTitleRef}>
           <input
             type="text"
             value={editedTitle}
+            onKeyDown={handleKeyDown}
             onChange={(e) => setEditedTitle(e.target.value)}
           />
-          <button onClick={handleSaveEdit}>Save</button>
         </div>
       ) : (
         <div>
