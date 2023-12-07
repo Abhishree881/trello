@@ -52,6 +52,11 @@ const NewBoardPage = () => {
     // Redirect to the new board
     navigate(`/board/${newBoard.id}`);
   };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleAddBoard(e);
+    }
+  };
 
   return (
     <div className="main">
@@ -75,6 +80,7 @@ const NewBoardPage = () => {
                   value={newBoardTitle}
                   onChange={(e) => setNewBoardTitle(e.target.value)}
                   placeholder="What are you working on?"
+                  onKeyDown={handleKeyDown}
                 />
                 <button onClick={handleAddBoard}>Create your board</button>
               </div>

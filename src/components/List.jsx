@@ -70,6 +70,12 @@ const List = ({ list }) => {
     };
   }, []);
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleAddCard(e);
+    }
+  };
+
   return (
     <div className="list">
       <h3>{list.title}</h3>
@@ -85,6 +91,7 @@ const List = ({ list }) => {
             value={newCardTitle}
             onChange={(e) => setNewCardTitle(e.target.value)}
             placeholder="Enter card title"
+            onKeyDown={handleKeyDown}
           />
           <button onClick={handleAddCard}>Add Card</button>
         </div>
