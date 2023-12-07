@@ -119,6 +119,7 @@ const List = ({
   const cardRef = useRef(null);
   const listTitleRef = useRef(null);
   const submenuRef = useRef(null);
+  const showCardRef = useRef(null);
 
   const closeCard = () => {
     setIsAddingCard(false);
@@ -159,6 +160,18 @@ const List = ({
     const handleClickOutside = (event) => {
       if (submenuRef.current && !submenuRef.current.contains(event.target)) {
         setSubmenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showCardRef.current && !showCardRef.current.contains(event.target)) {
+        setShowCard(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -224,13 +237,13 @@ const List = ({
 
       <ul>
         {list.cards.map((card) => (
-          <>
+          <div>
             {showCard && card.id === showCardId ? (
               <Card
                 key={card.id}
                 card={card}
                 onEditCard={handleEditCard}
-                setShowCard={setShowCard}
+                showCardRef={showCardRef}
                 onDelete={() => handleDeleteCard(card.id)}
               />
             ) : (
@@ -238,7 +251,7 @@ const List = ({
                 {card.title}
               </li>
             )}
-          </>
+          </div>
         ))}
       </ul>
       {isAddingCard ? (

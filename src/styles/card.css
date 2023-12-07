@@ -1,0 +1,26 @@
+.edit__delete {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+}
+
+.card-submenu {
+    display: flex;
+    background-color: rgb(32, 21, 36, 0.9);
+    border-radius: 7px;
+    margin-top: 5%;
+    margin-bottom: 0;
+    justify-content: space-evenly;
+}
+
+.card-display textarea {
+    background-color: transparent;
+    color: ghostwhite;
+    border: none;
+    font-size: inherit;
+    border-bottom: 2px solid rgb(132, 121, 136, 0.9);
+    outline: none;
+    min-height: 100px;
+    resize: horizontal;
+}

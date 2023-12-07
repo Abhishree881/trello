@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
+import "../styles/card.css";
+import { FiEdit } from "react-icons/fi";
+import { MdDeleteForever } from "react-icons/md";
 
-const Card = ({ card, onEditCard, onDelete, setShowCard }) => {
+const Card = ({ card, onEditCard, onDelete, showCardRef }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(card.title);
 
@@ -37,11 +40,10 @@ const Card = ({ card, onEditCard, onDelete, setShowCard }) => {
   };
 
   return (
-    <li>
+    <li className="card-display" ref={showCardRef}>
       {isEditing ? (
         <div ref={cardTitleRef}>
-          <input
-            type="text"
+          <textarea
             value={editedTitle}
             onKeyDown={handleKeyDown}
             onChange={(e) => setEditedTitle(e.target.value)}
@@ -50,9 +52,16 @@ const Card = ({ card, onEditCard, onDelete, setShowCard }) => {
       ) : (
         <div>
           <span>{card.title}</span>
-          <button onClick={handleEdit}>Edit</button>
-          <button onClick={onDelete}>Delete</button>
-          <button onClick={() => setShowCard(false)}>Close</button>
+          <div className="card-submenu">
+            <button className="edit__delete" onClick={handleEdit}>
+              <FiEdit style={{ fontSize: "12px" }} />
+              Edit
+            </button>
+            <button className="edit__delete" onClick={onDelete}>
+              <MdDeleteForever />
+              Delete
+            </button>
+          </div>
         </div>
       )}
     </li>
