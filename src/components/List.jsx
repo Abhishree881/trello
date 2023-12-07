@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import Card from "./Card";
 import { addCard } from "../slices/boardSlice";
@@ -52,6 +52,24 @@ const List = ({ list }) => {
     }
   };
 
+  const cardRef = useRef(null);
+
+  const closeCard = () => {
+    setIsAddingCard(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (cardRef.current && !cardRef.current.contains(event.target)) {
+        closeCard();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="list">
       <h3>{list.title}</h3>
@@ -61,7 +79,7 @@ const List = ({ list }) => {
         ))}
       </ul>
       {isAddingCard ? (
-        <div className="add-card">
+        <div className="add-card" ref={cardRef}>
           <input
             type="text"
             value={newCardTitle}
