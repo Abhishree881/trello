@@ -12,7 +12,7 @@ const Board = ({ board }) => {
   const [newListTitle, setNewListTitle] = useState("");
   const [editedListTitle, setEditedListTitle] = useState("");
   const [isAddingList, setIsAddingList] = useState(false);
-  const [isEditingList, setIsEditingList] = useState(false);
+  // const [isEditingList, setIsEditingList] = useState(false);
   const [editingListId, setEditingListId] = useState(null);
 
   const updateBoardInFirestore = async (currBoard) => {
@@ -51,16 +51,30 @@ const Board = ({ board }) => {
       const updatedLists = board.lists.map((list) =>
         list.id === editingListId ? { ...list, title: editedListTitle } : list
       );
+      console.log(updatedLists);
       const currBoard = {
         id: board.id,
         lists: updatedLists,
         title: board.title,
       };
-      dispatch(editList({ boardId: board.id, lists: updatedLists }));
+      const updatedList = board.lists.map((list) =>
+        list.id === editingListId ? { ...list, title: editedListTitle } : ""
+      );
+      console.log(updatedList);
+      dispatch(
+        editList({
+          boardId: board.id,
+          listId: editingListId,
+          editedList: {
+            title: editedListTitle,
+            cards: board.lists.find((list) => list.id === editingListId).cards,
+          },
+        })
+      );
       updateBoardInFirestore(currBoard);
       setEditingListId(null);
       setEditedListTitle("");
-      setIsEditingList(false);
+      // setIsEditingList(false);
     }
   };
 
@@ -79,7 +93,7 @@ const Board = ({ board }) => {
 
   const closeInput = () => {
     setIsAddingList(false);
-    setIsEditingList(false);
+    // setIsEditingList(false);
     setEditingListId(null);
   };
 
@@ -110,12 +124,16 @@ const Board = ({ board }) => {
             <List
               key={list.id}
               list={list}
-              onEdit={(editedTitle) => {
-                setIsEditingList(true);
-                setEditedListTitle(editedTitle);
+              onEdit={() => {
+                // setIsEditingList(true);
+                // setEditedListTitle(editedTitle);
                 setEditingListId(list.id);
               }}
-              onDelete={() => handleDeleteList(list.id)}
+              isEditing={editingListId === list.id}
+              editedListTitle={editedListTitle}
+              setEditedListTitle={setEditedListTitle}
+              handleEditList={handleEditList}
+              onDeleteList={() => handleDeleteList(list.id)}
             />
           ))}
           <div className="add-list-button-parent">
@@ -146,25 +164,3 @@ const Board = ({ board }) => {
 };
 
 export default Board;
-
-/*
-{isAddingList ? (
-              <div className="add-list" ref={listRef}>
-                <input
-                  type="text"
-                  value={newListTitle}
-                  onChange={(e) => setNewListTitle(e.target.value)}
-                  placeholder="Enter list title"
-                  onKeyDown={handleKeyDown}
-                />
-                <button onClick={handleAddList}>Add List</button>
-              </div>
-            ) : (
-              <div
-                className="add-list-button"
-                onClick={() => setIsAddingList(true)}
-              >
-                + Add a list
-              </div>
-            )}
-*/

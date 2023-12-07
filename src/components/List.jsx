@@ -6,7 +6,15 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { auth } from "../firebase";
 
-const List = ({ list }) => {
+const List = ({
+  list,
+  onDeleteList,
+  onEdit,
+  isEditing,
+  setEditedListTitle,
+  handleEditList,
+  editedListTitle,
+}) => {
   const dispatch = useDispatch();
   const [newCardTitle, setNewCardTitle] = useState("");
   const [isAddingCard, setIsAddingCard] = useState(false);
@@ -132,9 +140,27 @@ const List = ({ list }) => {
     setShowCardId(cardId);
   };
 
+  const handleEditClick = () => {
+    onEdit();
+    setEditedListTitle(list.title);
+  };
+
   return (
     <div className="list">
-      <h3>{list.title}</h3>
+      {isEditing ? (
+        <>
+          <input
+            type="text"
+            value={editedListTitle}
+            onChange={(e) => setEditedListTitle(e.target.value)}
+          />
+          <button onClick={handleEditList}>Save</button>
+        </>
+      ) : (
+        <h3>{list.title}</h3>
+      )}
+      <button onClick={handleEditClick}>Edit</button>
+      <button onClick={onDeleteList}>Delete</button>
       <ul>
         {list.cards.map((card) => (
           <>
@@ -147,7 +173,9 @@ const List = ({ list }) => {
                 onDelete={() => handleDeleteCard(card.id)}
               />
             ) : (
-              <li onClick={() => handleCardClick(card.id)}>{card.title}</li>
+              <li key={card.id} onClick={() => handleCardClick(card.id)}>
+                {card.title}
+              </li>
             )}
           </>
         ))}
