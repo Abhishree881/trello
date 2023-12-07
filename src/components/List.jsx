@@ -131,21 +131,24 @@ const List = ({
     };
   }, []);
 
+  const closeInput = () => {
+    setEditingListId(null);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
         listTitleRef.current &&
         !listTitleRef.current.contains(event.target)
       ) {
-        // closeInput();
-        setEditingListId(null);
+        closeInput();
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  });
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
