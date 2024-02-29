@@ -42,7 +42,8 @@ const HomePage = () => {
             >
               <img
                 alt="cover"
-                src="https://th.bing.com/th/id/R.c65ba403ed9c885568de22510fcc3b77?rik=TrhFTNlIZ8DfAg&riu=http%3a%2f%2fyesofcorsa.com%2fwp-content%2fuploads%2f2019%2f05%2f4K-Landscape-Scenery-Wallpaper-Full-HD.jpg&ehk=MDJLn%2bql5jTVqnH8yRuQ3iZpsbPkkrGNJLNnnlvQlHU%3d&risl=&pid=ImgRaw&r=0"
+                // src="https://th.bing.com/th/id/R.c65ba403ed9c885568de22510fcc3b77?rik=TrhFTNlIZ8DfAg&riu=http%3a%2f%2fyesofcorsa.com%2fwp-content%2fuploads%2f2019%2f05%2f4K-Landscape-Scenery-Wallpaper-Full-HD.jpg&ehk=MDJLn%2bql5jTVqnH8yRuQ3iZpsbPkkrGNJLNnnlvQlHU%3d&risl=&pid=ImgRaw&r=0"
+                src="https://wallpaperbat.com/img/90735-animated-landscape-2560x1440-wallpaper.png"
               ></img>
               <span className="board-title">{board.title}</span>
             </div>
