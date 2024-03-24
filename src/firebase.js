@@ -3,13 +3,13 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAjJydgCLhyKC4s6n9VVg9eWNhp7KN4m2c",
-  authDomain: "trello-abhi.firebaseapp.com",
-  projectId: "trello-abhi",
-  storageBucket: "trello-abhi.appspot.com",
-  messagingSenderId: "640878524145",
-  appId: "1:640878524145:web:53e20658d590bab12e5b50",
-  measurementId: "G-H2HY3Z4BJ3",
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
